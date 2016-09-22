@@ -1,0 +1,8 @@
+//Spring boot redirect
+http://stackoverflow.com/questions/33327678/springboot-controller-redirect-not-working
+
+//Configure Spring boot SSL
+https://www.drissamri.be/blog/java/enable-https-in-spring-boot/
+
+//about key tool
+http://blog.csdn.net/saindy5828/article/details/11987587

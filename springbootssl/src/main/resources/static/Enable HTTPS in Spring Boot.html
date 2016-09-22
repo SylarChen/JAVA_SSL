@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)https://www.drissamri.be/blog/java/enable-https-in-spring-boot/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="google-site-verification" content="FMQjYIitRBZpmtZOzCIe5mclgkcawwdTg13eIjeUwfs">
+  <title>Enable HTTPS in Spring Boot</title>
+
+  <meta name="author" content="Driss Amri">
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Driss Amri - A software engineer and web developer. Consider myself a World Citizen, love to travel." href="https://www.drissamri.be/feed.xml">
+
+  
+    
+      <link rel="stylesheet" href="./Enable HTTPS in Spring Boot_files/font-awesome.min.css">
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="./Enable HTTPS in Spring Boot_files/bootstrap.min.css">
+    
+      <link rel="stylesheet" href="./Enable HTTPS in Spring Boot_files/main.css">
+    
+  
+
+  
+    
+	  <link rel="stylesheet" href="./Enable HTTPS in Spring Boot_files/css">
+    
+	  <link rel="stylesheet" href="./Enable HTTPS in Spring Boot_files/css(1)">
+    
+  
+
+  
+
+  
+
+  
+
+  <!-- Facebook OpenGraph tags -->
+  <meta property="og:title" content="Enable HTTPS in Spring Boot">
+  <meta property="og:type" content="website">
+
+  
+  <meta property="og:url" content="https://drissamri.be/blog/java/enable-https-in-spring-boot//">
+  
+
+  
+  <meta property="og:image" content="https://drissamri.be/img/avatar-icon.png">
+  
+
+  
+    <meta name="description" content="I&#39;m a Software Engineer and Java Consultant who loves to travel around the world.">
+    
+
+  
+ <meta name="keywords" content="Driss Amri, Developer, Software Engineer, Java, Cloud, Docker, Bluemix, Cloud Foundry, DevOps, Continuous Delivery">
+ 
+
+ <meta name="google-site-verification" content="EN4xzUTaXc68uGK5xP1JEi-QFwQOH1ZJt-U3KmhKI9I">
+<script type="text/javascript" async="" src="./Enable HTTPS in Spring Boot_files/embed.js"></script></head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://drissamri.be/">Driss Amri</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+	    
+        <li>
+		  <a href="https://www.drissamri.be/">Home</a>
+		</li>
+		
+        <li>
+		  <a href="https://www.drissamri.be/publications">Publications</a>
+		</li>
+		
+        <li>
+		  <a href="https://www.drissamri.be/aboutme">About Me</a>
+		</li>
+		
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="https://drissamri.be/">
+	      <img class="avatar-img" src="./Enable HTTPS in Spring Boot_files/avatar-icon.png" alt="Driss Amri profile picture">
+		</a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+      <header class="header-post">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <div class="post-heading">
+        <h1>Enable HTTPS in Spring Boot</h1>
+        
+        <span class="post-meta">Posted on April 14, 2015</span>
+      </div>
+     </div>
+  </div>
+</header>
+
+<article>
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+	  <p>This weekend I answered a question about enabling HTTPS in JHipster on <a href="http://stackoverflow.com/questions/29522114/how-to-add-self-signed-ssl-certificate-to-jhipster-sample-app/29582178#29582178">StackOverflow</a> that caught a lot of interest on Twitter so I decided to put a short post on it with some more useful details.</p>
+
+<p>JHipster is a Spring Boot application with a lot of neat features and other frameworks completely integrated. The configuration is exactly the same like any other Spring Boot application, including the SSL settings. If you are interested to get a quick introduction on JHipster, feel free to take a look at my <a href="http://www.drissamri.be/blog/technology/starting-modern-java-project-with-jhipster/"><em>Start a modern Java web application with JHipster</em></a></p>
+
+<p>If you are using Spring Boot and want to enable SSL (https) for your application on the embedded Tomcat there a few short steps you will need to take.</p>
+
+<ol>
+  <li><strong>Get yourself a SSL certificate:</strong> generate a self-signed certifcate or get one from a Certificate Authority</li>
+  <li><strong>Enable HTTPS in Spring Boot</strong></li>
+  <li><strong>Redirect HTTP to HTTPS</strong> <em>(optional)</em></li>
+</ol>
+
+<h3 id="step-1-get-a-ssl-certificate">Step 1: Get a SSL certificate</h3>
+
+<p>If you want to use SSL and serve your Spring Boot application over HTTPS you will need to get a certificate.</p>
+
+<p>You have two options to get one. You can generate a self-signed certificate, which will most likely be what you’ll want to do in development since it’s the easiest option. This usually isn’t a good option in production since it will display a warning to the user that your certificate is not trusted.</p>
+
+<p>The other (production) option is to request one from a Certificate Authority. I’ve heard good things about <a href="https://sslmate.com/">SSLMate</a> to buy your certificate for a reasonable price with excellent support. There are some providers that are able to give out free certificates but usually you’ll have problems down the line if you have any issues or problems (revocations).</p>
+
+<p>Since we are developers, let’s generate a self-signed certificate to get started quickly with development of our application. Every Java Runtime Environment (JRE) comes bundled with a certificate management utility, <a href="https://docs.oracle.com/javase/8/docs/technotes/tools/unix/keytool.html">keytool</a>. This can be used to generate our self-signed certificate. Let’s have a look:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">keytool -genkey -alias tomcat
+ -storetype PKCS12 -keyalg RSA -keysize 2048
+ -keystore keystore.p12 -validity 3650
+
+Enter keystore password:
+ Re-enter new password:
+ What is your first and last name?
+ <span class="o">[</span>Unknown<span class="o">]</span>:
+ What is the name of your organizational unit?
+ <span class="o">[</span>Unknown<span class="o">]</span>:
+ What is the name of your organization?
+ <span class="o">[</span>Unknown<span class="o">]</span>:
+ What is the name of your City or Locality?
+ <span class="o">[</span>Unknown<span class="o">]</span>:
+ What is the name of your State or Province?
+ <span class="o">[</span>Unknown<span class="o">]</span>:
+ What is the two-letter country code <span class="k">for</span> this unit?
+ <span class="o">[</span>Unknown<span class="o">]</span>:
+ Is <span class="nv">CN</span><span class="o">=</span>Unknown, <span class="nv">OU</span><span class="o">=</span>Unknown, <span class="nv">O</span><span class="o">=</span>Unknown, <span class="nv">L</span><span class="o">=</span>Unknown, <span class="nv">ST</span><span class="o">=</span>Unknown, <span class="nv">C</span><span class="o">=</span>Unknown correct?
+ <span class="o">[</span>no<span class="o">]</span>: yes</code></pre></div>
+
+<p>This will generate a PKCS12 keystore called keystore.p12 with your newly generate certificate in it, with certificate alias <code>tomcat</code>. You will need to reference keystore in a minute when we start to configure Spring Boot.</p>
+
+<h3 id="step-2-enable-https-in-spring-boot">Step 2: Enable HTTPS in Spring Boot</h3>
+
+<p>By default your Spring Boot embedded Tomcat container will have HTTP on port 8080 enabled. Spring Boot lets you configure HTTP or HTTPS in the application.properties, but not both at once. If you want to enable both you will need to configure at least one programmatically. The Spring Boot reference <a href="http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#howto-configure-ssl">documentation</a> recommends configuring HTTPS in the application.properties since it’s the more complicated than HTTP.</p>
+
+<blockquote>
+  <p>Using configuration like the example above means the application will no longer support plain HTTP connector at port 8080. Spring Boot doesn’t support the configuration of both an HTTP connector and an HTTPS connector via <strong>application.properties</strong>. If you want to have both then you’ll need to configure one of them programmatically. It’s recommended to use <strong>application.properties</strong> to configure HTTPS as the HTTP connector is the easier of the two to configure programmatically. See the <a href="http://github.com/spring-projects/spring-boot/tree/master/spring-boot-samples/spring-boot-sample-tomcat-multi-connectors">spring-boot-sample-tomcat-multi-connectors</a> sample project for an example.</p>
+</blockquote>
+
+<p>Funny enough despite their recommendation to configure HTTPS in the application.properties, their example does the exact opposite.</p>
+
+<p>Let’s configure HTTPS in the default <code>application.properties</code> file under <code>src/main/resources</code> of your Spring Boot application:</p>
+
+<div class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="na">server.port</span><span class="o">:</span> <span class="s">8443</span>
+<span class="na">server.ssl.key-store</span><span class="o">:</span> <span class="s">keystore.p12</span>
+<span class="na">server.ssl.key-store-password</span><span class="o">:</span> <span class="s">mypassword</span>
+<span class="na">server.ssl.keyStoreType</span><span class="o">:</span> <span class="s">PKCS12</span>
+<span class="na">server.ssl.keyAlias</span><span class="o">:</span> <span class="s">tomcat</span></code></pre></div>
+
+<p>That’s all you need to do to make your application accessible over HTTPS on <code>https://localhost:8443</code>, pretty easy right?</p>
+
+<h3 id="step-3-redirect-http-to-https-optional">Step 3: Redirect HTTP to HTTPS (optional)</h3>
+
+<p>In some cases it might be a good idea to make your application accessible over HTTP too, but redirect all traffic to HTTPS.
+ To achieve this we’ll need to add a second Tomcat connector, but currently it is not possible to configure two connector in the application.properties like mentioned before. Because of this we’ll add the HTTP connector programmatically and make sure it redirects all traffic to our HTTPS connector.</p>
+
+<p>For this we will need to add the <strong>TomcatEmbeddedServletContainerFactory</strong> bean to one of our <strong>@Configuration</strong> classes.</p>
+
+<noscript>&lt;pre&gt;  @Bean
+  public EmbeddedServletContainerFactory servletContainer() {
+    TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory() {
+        @Override
+        protected void postProcessContext(Context context) {
+          SecurityConstraint securityConstraint = new SecurityConstraint();
+          securityConstraint.setUserConstraint(&amp;quot;CONFIDENTIAL&amp;quot;);
+          SecurityCollection collection = new SecurityCollection();
+          collection.addPattern(&amp;quot;/*&amp;quot;);
+          securityConstraint.addCollection(collection);
+          context.addConstraint(securityConstraint);
+        }
+      };
+    
+    tomcat.addAdditionalTomcatConnectors(initiateHttpConnector());
+    return tomcat;
+  }
+  
+  private Connector initiateHttpConnector() {
+    Connector connector = new Connector(&amp;quot;org.apache.coyote.http11.Http11NioProtocol&amp;quot;);
+    connector.setScheme(&amp;quot;http&amp;quot;);
+    connector.setPort(8080);
+    connector.setSecure(false);
+    connector.setRedirectPort(8443);
+    
+    return connector;
+  }&lt;/pre&gt;</noscript>
+<script src="./Enable HTTPS in Spring Boot_files/8def1ce9322caab47e8e.js"> </script>
+
+<p>That’s all you need to do to make sure your application is always used over HTTPS!</p>
+
+	</div>
+  </div>
+</article>
+
+<div class="row">
+  <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <ul class="pager blog-pager">
+      
+      <li class="previous">
+        <a href="https://www.drissamri.be/blog/technology/starting-modern-java-project-with-jhipster/" data-toggle="tooltip" data-placement="top" title="Starting a modern Java project with JHipster">← Previous Post</a>
+      </li>
+      
+      
+      <li class="next">
+        <a href="https://www.drissamri.be/blog/2015/05/17/drissamri-home-v2" data-toggle="tooltip" data-placement="top" title="Introducing drissamri.be v2">Next Post →</a>
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<div class="row disqus-comments">
+  <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+	    var disqus_shortname = 'drissamri';
+	    // ensure that pages with query string get the same discussion
+            var url_parts = window.location.href.split("?");
+            var disqus_url = url_parts[0];	    
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the &lt;a href="http://disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;</noscript>
+</div>
+
+
+  </div>
+</div>
+
+
+    </div>
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          <li>
+            <a href="https://www.facebook.com/driss.amri" title="Facebook">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+           
+          <li>
+            <a href="https://github.com/drissamri" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+           
+          <li>
+            <a href="https://bitbucket.com/drissamri" title="Bitbucket">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-bitbucket fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+           
+          <li>
+            <a href="https://twitter.com/drams88" title="Twitter">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+           
+          <li>
+            <a href="mailto:hello@drissamri.be" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+           
+          <li>
+            <a href="https://linkedin.com/in/drissamri" title="LinkedIn" data-proofer-ignore="">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+           
+          <li>
+            <a href="https://stackoverflow.com/users/492723/driss-amri" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+           
+          <li>
+            <a href="https://www.drissamri.be/feed.xml" title="RSS">
+              <span class="fa-stack fa-lg">
+				<i class="fa fa-circle fa-stack-2x"></i>
+				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+			  </span>
+            </a>
+          </li>
+          
+        </ul>
+
+
+        <div id="mc_embed_signup">
+<form action="https://drissamri.us10.list-manage.com/subscribe/post?u=26e893f61b307e44d625b0ec2&amp;id=7410ab3d05" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="">
+  <div class="signup" id="mc_embed_signup_scroll">
+    <label for="mce-EMAIL">Subscribe to newsletter</label>
+
+	    <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Email" required="">
+      <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+      <div style="position: absolute; left: -5000px;"><input type="text" name="b_26e893f61b307e44d625b0ec2_7410ab3d05" tabindex="-1" value=""></div>
+      <div class="clear"></div>
+  </div>
+</form>
+</div>
+
+
+        <p class="copyright text-muted">
+		  © Driss Amri
+		  &nbsp;•&nbsp;
+		  2015
+
+		  
+		  &nbsp;•&nbsp;
+		  <a href="https://drissamri.be/">drissamri.be</a>
+		  
+	    </p>
+		<p class="theme-by text-muted">
+		  Theme by
+		  <a href="https://github.com/daattali/beautiful-jekyll">beautiful-jekyll</a>
+		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    
+
+
+  
+	</body></html>
