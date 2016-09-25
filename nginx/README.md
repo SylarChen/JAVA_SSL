@@ -11,4 +11,5 @@ configure /etc/nginx/nginx.conf <br />
 location / { <br /> 
     proxy_pass http://$backEndHost:$backEndPort; <br />
 } <br />
+then restart nginx  <br />
 
