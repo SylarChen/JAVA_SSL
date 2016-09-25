@@ -9,6 +9,6 @@ yum install nginx -y <br />
 https://www.nginx.com/resources/admin-guide/reverse-proxy/ <br />
 configure /etc/nginx/nginx.conf
 location / { <br /> 
-    proxy_pass http://back_end_host:back_end_ip; <br />
+    proxy_pass http://<backEndHost>:<backEndPort>; <br />
 } <br />
 
