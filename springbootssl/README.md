@@ -15,4 +15,6 @@ http://stackoverflow.com/questions/33327678/springboot-controller-redirect-not-w
     public String index(Model model) {  <br />
 		return "redirect:Enable%20HTTPS%20in%20Spring%20Boot.html";  <br />
 	}
-##Run and check https://localhost:8443
+##Spring boot log configuration
+https://springframework.guru/using-logback-spring-boot/
+##Run and check https://localhost:8443 and https://localhost:8443/hello
