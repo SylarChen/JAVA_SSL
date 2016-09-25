@@ -16,5 +16,8 @@ http://stackoverflow.com/questions/33327678/springboot-controller-redirect-not-w
 		return "redirect:Enable%20HTTPS%20in%20Spring%20Boot.html";  <br />
 	}
 ##Spring boot log configuration
-https://springframework.guru/using-logback-spring-boot/
-##Run and check https://localhost:8443 and https://localhost:8443/hello
+https://springframework.guru/using-logback-spring-boot/ <br />
+application.properties: <br />
+logging.level.suiteinstaller.TestController=DEBUG <br />
+logging.file=logs/my.log <br />
+##Run and check https://localhost:8443, https://localhost:8443/log and https://localhost:8443/hello
