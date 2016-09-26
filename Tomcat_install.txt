@@ -1,0 +1,9 @@
+1. get apache-tomcat-6.0.45 (http://tomcat.apache.org/)
+2. tar -xvf apache-tomcat-6.0.45
+3. .bashrc --> export CATALINA_HOME=/home/hpba/apache-tomcat-6.0.45
+4. $CATALINA_HOME/bin/startup.sh
+5. http://localhost:8080 or Remote access without proxy
+
+6. set "manager-gui"
+	$CATALINA_HOME/conf/tomcat-users.xml
+	<user username="tomcat" password="tomcat" roles="manager-gui"/>
