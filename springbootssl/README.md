@@ -1,4 +1,4 @@
-#Spring Boot SSL Configuration (Page Redirect, Log Config)
+#Spring Boot SSL Configuration (Page Redirect, Log Config, Bean Injection, Props Read)
 https://www.drissamri.be/blog/java/enable-https-in-spring-boot/
 ##Generate Key Store
 http://blog.csdn.net/saindy5828/article/details/11987587 <br />
@@ -20,4 +20,20 @@ https://springframework.guru/using-logback-spring-boot/ <br />
 application.properties: <br />
 logging.level.suiteinstaller.TestController=DEBUG <br />
 logging.file=logs/my.log <br />
-##Run and check https://localhost:8443, https://localhost:8443/log and https://localhost:8443/hello
+##Spring boot bean injection
+http://stackoverflow.com/questions/31459838/spring-boot-dependency-injection <br />
+@Component ---> MyConfig.java <br />
+@Autowired <br />
+##Spring boot Props Read
+http://stackoverflow.com/questions/25869428/classpath-resource-not-found-when-running-as-jar <br />
+Read props under resource folder inside jar ---> MyConfig.java <br />
+ClassPathResource classPathResource = new ClassPathResource("myconf.json"); //myconf.json is under resource folder
+InputStream inputStream = classPathResource.getInputStream(); <br />
+##Run and check
+Page Redirect: <br />
+https://localhost:8443 <br />
+https://localhost:8443/log <br />
+Bean Injection, Props Read: <br />
+https://localhost:8443/conf <br /> 
+Log Config: <br />
+https://localhost:8443/hello <br />
