@@ -1,4 +1,4 @@
-#Spring Boot SSL Configuration
+#Spring Boot SSL Configuration (Page Redirect, Log Config)
 https://www.drissamri.be/blog/java/enable-https-in-spring-boot/
 ##Generate Key Store
 http://blog.csdn.net/saindy5828/article/details/11987587 <br />
